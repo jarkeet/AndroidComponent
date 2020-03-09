@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+
+    <com.wang.library.view.CircleProgress
+        android:id="@+id/circle_progress"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:circle_unfinished_color="#80000000"
+        app:circle_finished_color="#66DE4343"
+        app:circle_progress="0"
+        app:circle_ring_color="#fa3c3c"
+        app:circle_ring_width="2dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_mask"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/shape_fa3c3c_circle"/>
+
+    <TextView
+        android:id="@+id/tv_click_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        tools:text="x100"
+       />
+
+
+</FrameLayout>
