@@ -19,10 +19,31 @@ import com.wang.library.R;
 import com.wang.library.utils.DpUtil;
 
 
-
-
+/**
+ * 带圆环倒计时的圆形进度
+ */
 public class CircleProgress extends View {
+
+    private static final String INSTANCE_STATE = "saved_instance";
+    private static final String INSTANCE_TEXT_COLOR = "text_color";
+    private static final String INSTANCE_TEXT_SIZE = "text_size";
+    private static final String INSTANCE_FINISHED_STROKE_COLOR = "finished_stroke_color";
+    private static final String INSTANCE_UNFINISHED_STROKE_COLOR = "unfinished_stroke_color";
+    private static final String INSTANCE_MAX = "max";
+    private static final String INSTANCE_PROGRESS = "progress";
+    private static final String INSTANCE_SUFFIX = "suffix";
+    private static final String INSTANCE_PREFIX = "prefix";
+
+
+    /**
+     * 内部进度文字显示
+     */
     private Paint textPaint;
+
+    /**
+     * 内部圆进度水
+     */
+    private Paint paint;
     private RectF rectF = new RectF();
 
     private float textSize;
@@ -42,19 +63,11 @@ public class CircleProgress extends View {
     private boolean ifShowText;
     private final int min_size;
 
-    private static final String INSTANCE_STATE = "saved_instance";
-    private static final String INSTANCE_TEXT_COLOR = "text_color";
-    private static final String INSTANCE_TEXT_SIZE = "text_size";
-    private static final String INSTANCE_FINISHED_STROKE_COLOR = "finished_stroke_color";
-    private static final String INSTANCE_UNFINISHED_STROKE_COLOR = "unfinished_stroke_color";
-    private static final String INSTANCE_MAX = "max";
-    private static final String INSTANCE_PROGRESS = "progress";
-    private static final String INSTANCE_SUFFIX = "suffix";
-    private static final String INSTANCE_PREFIX = "prefix";
 
-    private Paint paint = new Paint();
-
-    private boolean mCountDown;
+    /**
+     * 外圈倒计时圆环
+     */
+    private boolean mShowRing;
     private Paint mRingPaint;
     private int ringColor;
     private float ringWidth;
@@ -108,13 +121,14 @@ public class CircleProgress extends View {
     }
 
     protected void initPainters() {
+
+        paint = new Paint();
+        paint.setAntiAlias(true);
+
         textPaint = new TextPaint();
         textPaint.setColor(textColor);
         textPaint.setTextSize(textSize);
         textPaint.setAntiAlias(true);
-
-        paint.setAntiAlias(true);
-
 
         mRingPaint = new Paint();
         mRingPaint.setAntiAlias(true);
@@ -243,8 +257,8 @@ public class CircleProgress extends View {
         paint.setColor(getUnfinishedColor());
         canvas.drawArc(rectF, startAngle, sweepAngle, false, paint);
 
-        if(mCountDown) {
-
+        //是否画外部圆环
+        if(mShowRing) {
             canvas.drawArc(ringRectF, -90, 360 * mCountDownValue, false, mRingPaint);
         }
 
@@ -302,7 +316,7 @@ public class CircleProgress extends View {
     }
 
     public void countDown() {
-        mCountDown = true;
+        mShowRing = true;
         getCountDownAnimator();
     }
 
@@ -328,6 +342,7 @@ public class CircleProgress extends View {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    mShowRing = false;
                     if(countDownListener != null) {
                         countDownListener.onCountDownEnd();
                     }
